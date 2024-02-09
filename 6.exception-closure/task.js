@@ -1,1 +1,52 @@
-﻿
+﻿'use strict'
+
+function parseCount(item) {
+	const value = parseFloat(item);
+	if (isNaN(value)) {
+		throw new Error("Невалидное значение");
+	}
+	return value;
+}
+
+function validateCount(item) {
+	try {
+		return parseCount(item);
+	} catch (error) {
+		return error;
+	}
+}
+
+class Triangle {
+	constructor(a, b, c) {
+		if (a > b + c || b > a + c || c > b + a) {
+			throw new Error("Треугольник с такими сторонами не существует");
+		}
+		this.a = a;
+		this.b = b;
+		this.c = c;
+	}
+
+	get perimeter() {
+		return this.a + this.b + this.c;
+	}
+
+	get area() {
+		const sp = this.perimeter / 2;
+		return +Math.sqrt(sp * (sp - this.a) * (sp - this.b) * (sp - this.c)).toFixed(3);
+	}
+}
+
+function getTriangle(a, b, c) {
+	try {
+		return new Triangle(a, b, c);
+	} catch (error) {
+		return {
+			get area() {
+				return "Ошибка! Треугольник не существует";
+			},
+			get perimeter() {
+				return "Ошибка! Треугольник не существует";
+			}
+		}
+	}
+}
